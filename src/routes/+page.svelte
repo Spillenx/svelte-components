@@ -82,7 +82,13 @@
 
 	<!-- Toast -->
 	<Toast />
-	<button on:click={() => toast.send('CHEERS!' + Math.random())}>New Toast</button>
+	<button on:click={() => toast.send('CHEERS!')}>New Toast</button>
+	<button on:click={() => toast.send('CHEERS!', { duration: 3000, type: 'SUCCESS' })}>
+		Toast: 3000 s
+	</button>
+	<button on:click={() => toast.send('Error!', { duration: 5000, type: 'ERROR' })}>
+		Toast ERROR!
+	</button>
 </div>
 
 <style>

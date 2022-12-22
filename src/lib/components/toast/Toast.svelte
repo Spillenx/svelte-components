@@ -1,36 +1,22 @@
 <script>
-	import { tweened } from 'svelte/motion';
 	import { fly, fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import Portal from '../Portal.svelte';
 	import { toast } from './toast';
-
-	let progress = tweened(0, { duration: 1000 });
-
-	async function updateProgress() {
-		const newProgress = Math.random() * 100;
-		await progress.set(newProgress);
-		toast.remove();
-	}
+	import Portal from '../Portal.svelte';
+	import ToastMessage from './ToastMessage.svelte';
 </script>
-
-<h1>{$progress}</h1>
-<div style={`width: ${$progress}%; height: 10px; background: limegreen;`} />
-<button on:click={updateProgress}>Go</button>
 
 <Portal>
 	<div class="toast-wrapper">
-		{#each $toast as message (message)}
+		{#each $toast as message (message.id)}
 			<div
 				in:fly={{ opacity: 0, x: 100 }}
 				out:fade
 				animate:flip
-				class="toast"
-				on:click={toast.remove}
+				class={`toast ${message.type.toLowerCase()}`}
+				on:click={toast.remove(message.id)}
 			>
-				<p>
-					{message}
-				</p>
+				<ToastMessage {message} />
 			</div>
 		{/each}
 	</div>
@@ -44,14 +30,28 @@
 	}
 
 	.toast {
+		overflow: hidden;
+		position: relative;
 		margin-bottom: 1rem;
 		padding: 20px;
 		border-radius: 15px;
 		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-		background: limegreen;
+		color: white;
+		background: var(--toast-background, #625df5);
 	}
 
-	p {
-		margin: 0;
+	.toast.info {
+		color: gold;
+		background: black;
+	}
+
+	.toast.success {
+		color: black;
+		background: aliceblue;
+	}
+
+	.toast.error {
+		color: black;
+		background: var(--toast-error-background, #e54b4b);
 	}
 </style>
