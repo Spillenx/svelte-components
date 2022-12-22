@@ -7,6 +7,6 @@
 <style>
 	:global(body) {
 		height: 100vh;
-		width: 100 vw;
+		width: 100vw;
 	}
 </style>
