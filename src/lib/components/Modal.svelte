@@ -1,8 +1,10 @@
 <script>
 	import { fly, fade } from 'svelte/transition';
 	import Portal from './Portal.svelte';
+	import { clickOutside } from '../actions/clickOutside';
 
 	export let isModalOpen = false;
+	export let background = true;
 
 	function closeModal() {
 		isModalOpen = false;
@@ -11,11 +13,18 @@
 
 {#if isModalOpen}
 	<Portal>
-		<div class="modal-wrapper" transition:fly={{ opacity: 0, y: 100 }}>
-			<button on:click={closeModal} aria-label="Clode Modal Box">Close</button>
+		<div
+			use:clickOutside
+			on:click-outside={closeModal}
+			class="modal-wrapper"
+			transition:fly={{ opacity: 0, y: 100 }}
+		>
+			<button class="close-btn" on:click={closeModal} aria-label="Close Modal Box">Close</button>
 			<slot />
 		</div>
-		<div on:click={closeModal} transition:fade class="background" />
+		{#if background}
+			<div on:click={closeModal} transition:fade class="background" />
+		{/if}
 	</Portal>
 {/if}
 
@@ -37,5 +46,11 @@
 		inset: 0;
 		position: fixed;
 		z-index: 100;
+	}
+
+	.close-btn {
+		position: absolute;
+		top: -10px;
+		right: -10px;
 	}
 </style>

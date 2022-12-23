@@ -64,7 +64,7 @@
 	</Portal>
 
 	<!-- Modal -->
-	<Modal {isModalOpen}>
+	<Modal bind:isModalOpen background={true}>
 		<div style="background: white; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3)">
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint quas est corrupti voluptatem,
@@ -84,7 +84,7 @@
 	<Toast />
 	<button on:click={() => toast.send('CHEERS!')}>New Toast</button>
 	<button on:click={() => toast.send('CHEERS!', { duration: 3000, type: 'SUCCESS' })}>
-		Toast: 3000 s
+		Toast: 3000s
 	</button>
 	<button on:click={() => toast.send('Error!', { duration: 5000, type: 'ERROR' })}>
 		Toast ERROR!
